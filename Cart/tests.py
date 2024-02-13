@@ -36,5 +36,59 @@ class TestModelIndOrder(TestCase):
 
 
 
+# Test for view:
 
 
+class CartViewTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(username='ema_01', email='ema@gmail.com', password='ema12345')
+        self.customer = Customer.objects.create(customerId=101, name='ema', email='ema@gmail.com', username='ema_01', password='ema12345')
+        self.order = Order.objects.create(customer=self.customer, orderId=1, status=0, total=0)
+        self.product = Product.objects.create(productId=102, name='Shirt', price=100)
+
+    def testCartView(self):
+        # Create a request object
+        request = self.factory.get('/cart/')
+        request.user = self.user
+
+        # Attach the user to the request
+        request.user = self.user
+
+        # Attach the request to the view and get the response
+        response = cart(request)
+
+        # Check if the response is successful (status code 200)
+        self.assertEqual(response.status_code, 200)
+
+    def testCartPostOrder(self):
+        # Create a request object with POST data
+        request = self.factory.post('/cart/', {'order': ''})
+        request.user = self.user
+
+        # Attach the user to the request
+        request.user = self.user
+
+        # Attach the request to the view and get the response
+        response = cart(request)
+
+        # Check if the response is a redirect
+        self.assertEqual(response.status_code, 302)
+
+    def testCartPostUpdateQuantity(self):
+        # Create a request object with POST data
+        request = self.factory.post('/cart/', {'product': [self.product.productId]})
+        request.user = self.user
+
+        # Attach the user to the request
+        request.user = self.user
+
+        # Attach the request to the view and get the response
+        response = cart(request)
+
+        # Check if the response is a redirect (status code 302)
+        if response.status_code == 302:
+         print("Redirect URL:", response.url)
+
+        # Assert the status code of the response
+        self.assertEqual(response.status_code, 200)
