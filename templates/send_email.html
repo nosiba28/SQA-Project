@@ -1,0 +1,21 @@
+<!-- emailnotification/templates/emailnotification/send_email.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Email</title>
+</head>
+<body>
+    <h1>Send Email</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="subject">Subject:</label><br>
+        <input type="text" id="subject" name="subject" required><br><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" required></textarea><br><br>
+        <label for="recipient_email">Recipient Email:</label><br>
+        <input type="email" id="recipient_email" name="recipient_email" required><br><br>
+        <button type="submit">Send Email</button>
+    </form>
+</body>
+</html>
