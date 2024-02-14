@@ -50,3 +50,22 @@ def payment(request,id,id2):
         'order':order
     }
     return render(request,'payment.html',context)
+
+def receipt(request,id):
+    order=Order.objects.get(orderId=int(id))
+    customer=Customer.objects.get(email=request.user.email)
+    allProduct=indOrder.objects.filter(order=order)
+    today=datetime.date.today()
+    if 'confirm' in request.POST:
+        order.status=1
+        order.save()
+        return redirect('/product')
+    if 'back' in request.POST:
+        return redirect('/cart')
+    context={
+        'order':order,
+        'allProduct':allProduct,
+        'customer':customer,
+        'date':today
+    }
+    return render(request,'receipt.html',context)
