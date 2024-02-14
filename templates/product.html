@@ -1,0 +1,477 @@
+{%extends 'navbar.html'%} {%block body%}{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat:300,400,700,800|Open+Sans:300");
+      body {
+        background-image: linear-gradient(
+          to right bottom,
+          #b91eda,
+          #a02ae0,
+          #8234e5,
+          #5d3be8,
+          #1241eb
+        );
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 100px;
+      }
+      .card {
+        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+        transition: 200ms;
+        background: #fff;
+        border-radius: 10px;
+        margin-right: 30px;
+        margin-bottom: 30px;
+        padding: 20px;
+        width: 600px;
+      }
+      .card .card__title {
+        display: flex;
+        align-items: center;
+        padding: 30px 40px;
+      }
+      .card .card__title h3 {
+        flex: 0 1 200px;
+        text-align: right;
+        margin: 0;
+        color: #252525;
+        font-family: sans-serif;
+        font-weight: 600;
+        font-size: 20px;
+        text-transform: uppercase;
+      }
+      .card .card__title .icon {
+        flex: 1 0 10px;
+        background: #115dd8;
+        color: #fff;
+        padding: 10px 10px;
+        transition: 200ms;
+      }
+      .card .card__title .icon > a {
+        color: #fff;
+      }
+      .card .card__title .icon:hover {
+        background: #252525;
+      }
+      .card .card__body {
+        padding: 0 40px;
+        display: flex;
+        flex-flow: row no-wrap;
+        margin-bottom: 25px;
+      }
+      .card .card__body > .half {
+        box-sizing: border-box;
+        padding: 0 15px;
+        flex: 1 0 50%;
+      }
+      .card .card__body .featured_text h1 {
+        margin: 0;
+        padding: 0;
+        font-weight: 800;
+        font-family: "Montserrat", sans-serif;
+        font-size: 64px;
+        line-height: 50px;
+        color: #181e28;
+      }
+      .card .card__body .featured_text p {
+        margin: 0;
+        padding: 0;
+      }
+      .card .card__body .featured_text p.sub {
+        font-family: "Montserrat", sans-serif;
+        font-size: 26px;
+        text-transform: uppercase;
+        color: #686e77;
+        font-weight: 300;
+        margin-bottom: 5px;
+      }
+      .card .card__body .featured_text p.price {
+        font-family: "Fjalla One", sans-serif;
+        color: #252525;
+        font-size: 26px;
+      }
+      .card .card__body .image {
+        padding-top: 15px;
+        width: 100%;
+      }
+      .card .card__body .image img {
+        display: block;
+        max-width: 300px;
+        height: auto;
+      }
+      .card .card__body .description {
+        margin-bottom: 25px;
+      }
+      .card .card__body .description p {
+        margin: 0;
+        font-family: "Open Sans", sans-serif;
+        font-weight: 300;
+        line-height: 27px;
+        font-size: 16px;
+        color: #555;
+      }
+      .card .card__body span.stock {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        color: #a1cc16;
+      }
+      .card .card__body .reviews .stars {
+        display: inline-block;
+        list-style: none;
+        padding: 0;
+      }
+      .card .card__body .reviews .stars > li {
+        display: inline-block;
+      }
+      .card .card__body .reviews .stars > li .fa {
+        color: #f7c01b;
+      }
+      .card .card__body .reviews > span {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        margin-left: 5px;
+        color: #555;
+      }
+      .card .card__footer {
+        padding: 30px 40px;
+        display: flex;
+        flex-flow: row no-wrap;
+        align-items: center;
+        position: relative;
+      }
+      .card .card__footer::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 40px;
+        width: calc(100% - 40px);
+        height: 3px;
+        background: #115dd8;
+        background: linear-gradient(
+          to right,
+          #115dd8 0%,
+          #115dd8 20%,
+          #ddd 20%,
+          #ddd 100%
+        );
+      }
+      .card .card__footer .recommend {
+        flex: 1 0 10px;
+      }
+      .card .card__footer .recommend p {
+        margin: 0;
+        font-family: "Montserrat", sans-serif;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 14px;
+        color: #555;
+      }
+      .card .card__footer .recommend h3 {
+        margin: 0;
+        font-size: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #115dd8;
+      }
+      .card .card__footer .action button {
+        cursor: pointer;
+        border: 1px solid #115dd8;
+        padding: 14px 30px;
+        border-radius: 200px;
+        color: #fff;
+        background: #115dd8;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        transition: 200ms;
+      }
+      .card .card__footer .action button:hover {
+        background: #fff;
+        color: #115dd8;
+      }
+      .checkbox-wrapper-24 .checkbox {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      .checkbox-wrapper-24 label {
+        display: inline-block;
+        color: #333;
+        cursor: pointer;
+        position: relative;
+      }
+      .checkbox-wrapper-24 label span {
+        display: inline-block;
+        position: relative;
+        background-color: transparent;
+        width: 25px;
+        height: 25px;
+        transform-origin: center;
+        border: 2px solid #333;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 10px;
+        transition: background-color 150ms 200ms,
+          transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
+      }
+      .checkbox-wrapper-24 label span:before {
+        content: "";
+        width: 0px;
+        height: 2px;
+        border-radius: 2px;
+        background: #333;
+        position: absolute;
+        transform: rotate(45deg);
+        top: 13px;
+        left: 9px;
+        transition: width 50ms ease 50ms;
+        transform-origin: 0% 0%;
+      }
+      .checkbox-wrapper-24 label span:after {
+        content: "";
+        width: 0;
+        height: 2px;
+        border-radius: 2px;
+        background: #333;
+        position: absolute;
+        transform: rotate(305deg);
+        top: 16px;
+        left: 10px;
+        transition: width 50ms ease;
+        transform-origin: 0% 0%;
+      }
+      .checkbox-wrapper-24 label:hover span:before {
+        width: 5px;
+        transition: width 100ms ease;
+      }
+      .checkbox-wrapper-24 label:hover span:after {
+        width: 10px;
+        transition: width 150ms ease 100ms;
+      }
+
+      .checkbox-wrapper-24 input[type="checkbox"] {
+        display: none;
+      }
+      .checkbox-wrapper-24 input[type="checkbox"]:checked + label span {
+        background-color: #333;
+        transform: scale(1.25);
+      }
+      .checkbox-wrapper-24 input[type="checkbox"]:checked + label span:after {
+        width: 10px;
+        background: #fff;
+        transition: width 150ms ease 100ms;
+      }
+      .checkbox-wrapper-24 input[type="checkbox"]:checked + label span:before {
+        width: 5px;
+        background: #fff;
+        transition: width 150ms ease 100ms;
+      }
+      .checkbox-wrapper-24 input[type="checkbox"]:checked + label:hover span {
+        background-color: #333;
+        transform: scale(1.25);
+      }
+      .checkbox-wrapper-24
+        input[type="checkbox"]:checked
+        + label:hover
+        span:after {
+        width: 10px;
+        background: #fff;
+        transition: width 150ms ease 100ms;
+      }
+      .checkbox-wrapper-24
+        input[type="checkbox"]:checked
+        + label:hover
+        span:before {
+        width: 5px;
+        background: #fff;
+        transition: width 150ms ease 100ms;
+      }
+      .filter {
+        margin-top: 200px;
+        background: whitesmoke;
+        display: flex;
+        padding: 20px;
+        border-radius: 10px;
+        justify-content: center;
+        align-items: center;
+        width: 80vw;
+      }
+      .filter > * {
+        width: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 50px;
+      }
+      .filter button {
+        width: 200px;
+      }
+      .filter .price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .filter .shops {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .filter .categories {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .filter > * > * {
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      .wish {
+        background: crimson;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form method="POST" class="filter">
+      <div class="shops">
+        {%for shop in shopList%}
+        <div class="checkbox-wrapper-24">
+          <input
+            type="checkbox"
+            id="{{shop.shopId}}"
+            name="shops"
+            value="{{shop.shopId}}"
+          />
+          <label for="{{shop.shopId}}"> <span></span>{{shop.shopName}} </label>
+        </div>
+
+        {%endfor%}
+      </div>
+      <div class="categories">
+        {%for category in categoryList%}
+        <div class="checkbox-wrapper-24">
+          <input
+            type="checkbox"
+            id="{{category.categoryName}}"
+            name="category"
+            value="{{category.categoryName}}"
+          />
+          <label for="{{category.categoryName}}">
+            <span></span>{{category.categoryName}}
+          </label>
+        </div>
+        {%endfor%}
+      </div>
+      <div class="price">
+        <button>Lowest to Highest</button><button>Highest to Lowest</button>
+      </div>
+      <button type="submit" name="search">Search</button>
+    </form>
+    <div class="container">
+      {%for product,item in queryDict.items%}
+      <form method="POST">
+        {%csrf_token%}
+        <div class="card">
+          <div class="card__title">
+            <div class="icon">
+              <a href="#"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            <h3>{{product.shop.shopName}}</h3>
+          </div>
+          <div class="card__body">
+            <div class="half">
+              <div class="featured_text">
+                <h2>{{product.name}}</h2>
+                <p class="sub">{{product.desc}}</p>
+                <p class="price">${{product.price}}</p>
+              </div>
+              <div class="image">
+                <img src="{{product.image.url}}" alt="" />
+              </div>
+            </div>
+            <div class="half">
+              <div class="description">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+                  voluptatem nam pariatur voluptate perferendis, asperiores
+                  aspernatur! Porro similique consequatur, nobis soluta minima,
+                  quasi laboriosam hic cupiditate perferendis esse numquam
+                  magni.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card__footer">
+            <div class="action">
+              {%if item.0 is 1%}
+              <button
+                type="submit"
+                name="add"
+                value="{{product.productId}}"
+                style="background: rgb(27, 223, 112); border: black"
+                disabled
+              >
+                Added to cart
+              </button>
+              {%else%}
+              <button type="submit" name="add" value="{{product.productId}}">
+                Add to cart
+              </button>
+              {%endif%} {%if item.1 is 0%}
+              <button
+                class="wish"
+                type="submit"
+                name="wishlist"
+                value="{{product.productId}}"
+              >
+                Add to Favorites
+              </button>
+              {%else%}
+              <button
+                class="wish"
+                type="submit"
+                name="wishlist"
+                value="{{product.productId}}"
+                disabled
+                style="
+                  background: crimson;
+                  border: black;
+                  font-weight: 500;
+                  letter-spacing: 2px;
+                "
+              >
+                Favorite
+              </button>
+              {%endif%}
+            </div>
+          </div>
+        </div>
+      </form>
+      {%endfor%}
+    </div>
+  </body>
+</html>
+{%endblock body%}
