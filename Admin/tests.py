@@ -1,3 +1,5 @@
 from django.test import TestCase
+from Admin.models import MyModel
 
-# Create your tests here.
+# unit test starts here
+
