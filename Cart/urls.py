@@ -6,6 +6,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
 
+"""
+    URL patterns for the application.
+
+    These patterns map URLs to views within the application.
+
+    Attributes:
+        cart (view): The view function handling requests to the cart page.
+
+    URL Patterns:
+        '' (str): The root URL, mapped to the cart view.
+"""
+
 urlpatterns = [
     path('',views.cart,name='cart'),
 ]
