@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from .models import Product
+from .models import Category
+from django.http import HttpResponse
+from django.shortcuts import redirect
+
 
 # CS: the first parameter in a view function should be called request.
 
@@ -20,3 +25,15 @@ def aadmin(request,id):
             redirectUrl='/aadmin/allProduct/'+str(id)
             return redirect(redirectUrl)
     return render(request,'aadmin.html')
+
+
+
+def allProduct(request,id):
+    shop=Owner.objects.get(shopId=int(id))
+    products=Product.objects.filter(shop=shop)
+    context={
+        'shop':shop,
+        'products':products
+    }
+    return render(request,'allProduct.html',context)
+

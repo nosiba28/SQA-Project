@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('<int:id>/',views.aadmin,name='aadmin'),
+    # path('addProduct/<int:id>/',views.addProduct,name='addProduct'),
+    # path('updateProduct/<int:id>/',views.updateProduct,name='updateProduct'),
+    # path('removeProduct/<int:id>/',views.removeProduct,name='removeProduct'),
     path('allProduct/<int:id>/',views.allProduct,name='allProduct'),
 
 ]
