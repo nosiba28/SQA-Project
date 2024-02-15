@@ -50,11 +50,12 @@
         font-family: "Courier New", Courier, monospace;
       }
       th button {
-        width: 100px;
+        width: 150px;
         padding: 10px;
         background: rgb(55, 187, 239);
         border: none;
         color: white;
+        font-weight: 500;
         font-size: 18px;
         font-family: "Courier New", Courier, monospace;
       }
@@ -77,33 +78,33 @@
           <th>Price</th>
           <th>Action</th>
         </tr>
-        {%for product in wishList%}
+        {%for product,i in wishList.items%}
         <form method="POST">
           {%csrf_token%}
           <tr>
-            <th>{{product.product.name}}</th>
-            <th><img src="{{product.product.image.url}}" alt="" /></th>
-            <th>{{product.product.price}}</th>
+            <th>{{product.name}}</th>
+            <th><img src="{{product.image.url}}" alt="" /></th>
+            <th>{{product.price}}</th>
             <th>
-              <button
-                type="submit"
-                name="remove"
-                value="{{product.product.productId}}"
-              >
+              <button type="submit" name="remove" value="{{product.productId}}">
                 Remove
               </button>
-              <br>
-              <br>
-          
+              <br />
+              <br />
+              {%if i is 0%}
               <button
-              type="submit"
-              name="addcart"
-              value="{{product.product.productId}}"
+                type="submit"
+                name="addcart"
+                style="background: crimson"
+                value="{{product.productId}}"
               >
-              Cart
-            </button>
-
-
+                Cart
+              </button>
+              {%else%}
+              <button disabled style="background: rgb(45, 231, 126)">
+                Added to Cart
+              </button>
+              {%endif%}
             </th>
           </tr>
         </form>
@@ -112,7 +113,3 @@
     </table>
   </body>
 </html>
-
-
-
-

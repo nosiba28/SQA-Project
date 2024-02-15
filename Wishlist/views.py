@@ -34,6 +34,13 @@ def wishlist(request):
     customer=Customer.objects.get(email=request.user.email)
     wishList=Wishlist.objects.filter(customer=customer)
     cart=Order.objects.get(customer=customer,status=0)
+    queryDict={}
+    for o in wishList:
+        queryDict[o.product]=0
+    allProduct=indOrder.objects.filter(order=cart)
+    for o in allProduct:
+        if queryDict.get(o.product) != None:
+            queryDict[o.product]=1
 
     if 'remove' in request.POST:
         product=Product.objects.get(productId=request.POST.get('remove'))
@@ -51,6 +58,6 @@ def wishlist(request):
         addProduct.save()
         return redirect('/cart')
     context={
-        'wishList':wishList
+        'wishList':queryDict
     }
     return render(request,'wishlist.html',context)
