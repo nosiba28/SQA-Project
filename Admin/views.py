@@ -22,6 +22,7 @@ import random
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from .models import *
+from .models import Owner
 from Search.models import *
 from django.contrib.auth.decorators import login_required
 
@@ -121,3 +122,13 @@ def removeProduct(request,id):
             return redirect(redirectUrl)
     return render(request,'removeProduct.html')
 
+# view all product method
+
+def allProduct(request,id):
+    shop=Owner.objects.get(shopId=int(id))
+    products=Product.objects.filter(shop=shop)
+    context={
+        'shop':shop,
+        'products':products
+    }
+    return render(request,'allProduct.html',context)
