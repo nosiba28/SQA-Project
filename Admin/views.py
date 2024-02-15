@@ -1,9 +1,29 @@
+import re
+import json
+import datetime
+from decimal import Decimal
+from urllib import response
+from io import BytesIO
+from django.utils.html import strip_tags
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
-from .models import Product
-from .models import Category
+from django.template.loader import get_template,render_to_string
+from django.views import View
+from xhtml2pdf import pisa
+from django.core.mail import send_mail,EmailMessage
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect
-
+from django.utils import timezone
+from django.db import IntegrityError
+from django.contrib import messages
+import json
+import random
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import Group,User
+from .models import *
+from Search.models import *
+from django.contrib.auth.decorators import login_required
 
 # CS: the first parameter in a view function should be called request.
 
@@ -59,3 +79,45 @@ def addProduct(request,id):
         redirectUrl='/aadmin/'+str(id)
         return redirect(redirectUrl)
     return render(request,'addProduct.html')
+
+# update product method
+
+def updateProduct(request,id):
+    if 'view' in request.POST:
+        shop=Owner.objects.get(shopId=int(id))
+        ifPresent=Product.objects.filter(shop=shop,productId=int(request.POST.get('id')))
+        if not ifPresent:
+            messages.error(request, "Such product does not exist !!!",extra_tags='error')
+        else:
+            product=Product.objects.get(shop=shop,
+                                        productId=int(request.POST.get('id')))
+            messages.success(request,{
+                'name':product.name
+            },extra_tags='view')
+            if 'update' in request.POST:
+                product.name=request.POST.get('name')
+                if request.FILES.get('image'):
+                    product.image=request.FILES.get('image')
+                product.desc=request.POST.get('desc')
+                product.price=request.POST.get('price')
+                product.save()
+                redirectUrl='/aadmin/'+str(id)
+                return redirect(redirectUrl)
+
+    return render(request,'updateProduct.html')
+
+#remove product method
+
+def removeProduct(request,id):
+    shop=Owner.objects.get(shopId=int(id))
+    if 'remove' in request.POST:
+        ifPresent=Product.objects.filter(shop=shop,productId=int(request.POST.get('id')))
+        if not ifPresent:
+            messages.error(request, "Such product does not exist !!!",extra_tags='error')
+        else:
+            product=Product.objects.get(shop=shop,productId=int(request.POST.get('id')))
+            product.delete()
+            redirectUrl='/aadmin/'+str(id)
+            return redirect(redirectUrl)
+    return render(request,'removeProduct.html')
+
