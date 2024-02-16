@@ -37,6 +37,17 @@ This view renders the home page
 """
 
 def home(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponse
+        HTTP response that renders the home page
+    """
     return render(request,'home.html')
 
 
@@ -46,6 +57,17 @@ This view handles the login functionality
 """
 
 def logIn(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponse
+        HTTP response that renders the login page or redirects to another page
+    """
     if 'login' in request.POST:
         # Check if user is an owner or a customer
         if request.POST.get('type')=='2':
@@ -84,6 +106,17 @@ Redirects to the login page after logging out
 """
 
 def logOut(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponseRedirect
+        Redirects to the login page.
+    """
     logout(request)
     return redirect('/logIn')
 
@@ -94,6 +127,17 @@ This view handles user registration
 """
 
 def register(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponse
+        HTTP response that renders the registration page or redirects to another page
+    """
     if 'register' in request.POST:
         print(request.POST.get('type'))
         if request.POST.get('type')=='2':

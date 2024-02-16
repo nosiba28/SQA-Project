@@ -51,7 +51,7 @@ class Customer(models.Model):
     desc=models.CharField(max_length=100,blank=True,null=True,default=None)
     def __str__(self):
         """
-        A method that returns the Customer name and customer ID
+        A method that returns string consisting of the Customer's name and ID
         """
         return str(self.name)+"-"+str(self.customerId)
 
