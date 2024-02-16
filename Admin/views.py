@@ -22,7 +22,7 @@ import random
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
 from .models import *
-from .models import Owner
+# from .models import Owner
 from Search.models import *
 from django.contrib.auth.decorators import login_required
 
