@@ -3,6 +3,38 @@ from django.urls import reverse
 from .models import Owner, Customer
 
 # Create your tests here.
+#unit testing for models
+class OwnerModelTestCase(TestCase):
+    def setUp(self):
+        self.owner = Owner.objects.create(
+            shopId=1,
+            name="John Doe",
+            email="john@example.com",
+            shopName="John's Shop",
+            password="password123",
+            username="john_doe",
+            desc="Owner description"
+        )
+
+    def test_owner_str_method(self):
+        self.assertEqual(str(self.owner), "John Doe-1")
+
+class CustomerModelTestCase(TestCase):
+    def setUp(self):
+        self.customer = Customer.objects.create(
+            customerId=1,
+            name="Jane Smith",
+            email="jane@example.com",
+            username="jane_smith",
+            password="password456",
+            desc="Customer description"
+        )
+
+    def test_customer_str_method(self):
+        self.assertEqual(str(self.customer), "Jane Smith-1")
+
+
+#unit testing for views
 class ViewTestCase(TestCase):
     def setUp(self):
         # Create some sample users for testing
