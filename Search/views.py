@@ -189,6 +189,17 @@ search and filter products based on certain criteria
 """
 
 def product(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponse
+        HTTP response that renders the product page with updated information
+    """
     customer=Customer.objects.get(email=request.user.email)
     allProduct=Product.objects.filter()
     currentCart=Order.objects.filter(customer=customer,status=0)
