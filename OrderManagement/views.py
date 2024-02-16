@@ -44,13 +44,12 @@ def order(request,id):
     }
     return render(request,'order.html',context)
 def payment(request,id,id2):
-    order=Order.objects.get(orderId=int(id2))
+    order=Order.objects.get(orderId=int(id))
     context={
         'id':id,
         'order':order
     }
     return render(request,'payment.html',context)
-
 def receipt(request,id):
     order=Order.objects.get(orderId=int(id))
     customer=Customer.objects.get(email=request.user.email)
