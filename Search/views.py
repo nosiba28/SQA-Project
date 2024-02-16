@@ -34,17 +34,17 @@ from django.contrib.auth.decorators import login_required
 """
 Home page
 This view renders the home page
-
 """
+
 def home(request):
     return render(request,'home.html')
+
 
 """
 Login page
 This view handles the login functionality
-Handles both GET and POST methods
-
 """
+
 def logIn(request):
     if 'login' in request.POST:
         # Check if user is an owner or a customer
@@ -78,18 +78,21 @@ def logIn(request):
                     return redirect('/')
     return render(request,'logIn.html')
 
+
 """
 Redirects to the login page after logging out
 """
+
 def logOut(request):
     logout(request)
     return redirect('/logIn')
 
+
 """
 Register page
 This view handles user registration
-handles both GET and POST methods
 """
+
 def register(request):
     if 'register' in request.POST:
         print(request.POST.get('type'))
@@ -133,12 +136,14 @@ def register(request):
 
     return render(request,'register.html')
 
+
 """
 Product page
 This view renders the product page
 handles product addition to the cart/wishlist
 search and filter products based on certain criteria
 """
+
 def product(request):
     customer=Customer.objects.get(email=request.user.email)
     allProduct=Product.objects.filter()
