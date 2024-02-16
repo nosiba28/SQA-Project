@@ -30,12 +30,14 @@ class Product(models.Model):
         desc (CharField): Description of the product.
         price (IntegerField): Price of the product.
     """
+    
 
     productId = models.IntegerField(default=0, blank=True, null=True)
     name = models.CharField(max_length=40, blank=True, null=True)
-    image = models.ImageField(upload_to='image/', blank=True, null=True)
+    image = models.ImageField(upload_to='image/', blank=True, null=True, default=None)  # Allow null values
     desc = models.CharField(max_length=100, blank=True, null=True, default=None)
     price = models.IntegerField(default=0, blank=True, null=True)
+    shop = models.CharField(max_length=50, blank=True, null=True)  # Assuming shop is a local field
 
     def __str__(self):
         """
@@ -44,4 +46,4 @@ class Product(models.Model):
         Returns:
             str: Concatenation of productId and shop ID.
         """
-        return str(self.productId) + " - " + str(self.shop.shopId)
+        return f"{self.productId} - {self.shop}"
