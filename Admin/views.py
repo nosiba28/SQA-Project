@@ -21,14 +21,25 @@ import random  # Module for generating random numbers
 from django.contrib.auth import authenticate, login, logout  # Django authentication modules
 from django.contrib.auth.models import Group, User  # Django user and group models
 from .models import *  # Importing all models from the current app
+# from .models import Owner  # Importing specific model (commented out)
 from Search.models import *  # Importing models from the 'Search' app
 from django.contrib.auth.decorators import login_required  # Django decorator for requiring login
 
+# CS: the first parameter in a view function should be called request.
+
+# admin view method
 
 def aadmin(request, id):
     """
     View method for managing admin tasks.
     Handles actions like adding, updating, removing, and viewing products.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        HTTP response or rendered template.
     """
     if 'ok' in request.POST:
         redirectUrl = ""
@@ -46,10 +57,18 @@ def aadmin(request, id):
             return redirect(redirectUrl)
     return render(request, 'aadmin.html')
 
+# all products method
 
 def allProduct(request, id):
     """
     View method for displaying all products of a shop.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        Rendered template displaying all products.
     """
     shop = Owner.objects.get(shopId=int(id))
     products = Product.objects.filter(shop=shop)
@@ -59,9 +78,18 @@ def allProduct(request, id):
     }
     return render(request, 'allProduct.html', context)
 
+# add product method
+
 def addProduct(request, id):
     """
     View method for adding a new product.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        HTTP response or rendered template.
     """
     if 'add' in request.POST:
         shop = Owner.objects.get(shopId=int(id))
@@ -83,9 +111,18 @@ def addProduct(request, id):
         return redirect(redirectUrl)
     return render(request, 'addProduct.html')
 
+# update product method
+
 def updateProduct(request, id):
     """
     View method for updating product details.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        HTTP response or rendered template.
     """
     if 'view' in request.POST:
         shop = Owner.objects.get(shopId=int(id))
@@ -109,9 +146,18 @@ def updateProduct(request, id):
 
     return render(request, 'updateProduct.html')
 
+# remove product method
+
 def removeProduct(request, id):
     """
     View method for removing a product.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        HTTP response or rendered template.
     """
     shop = Owner.objects.get(shopId=int(id))
     if 'remove' in request.POST:
@@ -125,9 +171,18 @@ def removeProduct(request, id):
             return redirect(redirectUrl)
     return render(request, 'removeProduct.html')
 
+# view all product method
+
 def allProduct(request, id):
     """
     View method for displaying all products of a shop.
+
+    Args:
+        request: HTTP request object.
+        id: Shop ID.
+
+    Returns:
+        Rendered template displaying all products.
     """
     shop = Owner.objects.get(shopId=int(id))
     products = Product.objects.filter(shop=shop)
