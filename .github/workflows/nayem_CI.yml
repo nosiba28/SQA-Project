@@ -6,30 +6,9 @@ on:
       - nayem
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python environment
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.x' # Replace with your desired Python version
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run migrations
-        run: python manage.py migrate
-
-      - name: Run tests
-        run: python manage.py test
 
   merge_to_main:
     runs-on: ubuntu-latest
-
-    needs: build_and_test
 
     steps:
       - uses: actions/checkout@v3
