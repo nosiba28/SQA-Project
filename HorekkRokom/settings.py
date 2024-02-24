@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'Cart.apps.CartConfig',
     'OrderManagement.apps.OrdermanagementConfig',
     'Search.apps.SearchConfig',
-        'Wishlist.apps.WishlistConfig',
+    'Reviews.apps.ReviewsConfig',
+    'Wishlist.apps.WishlistConfig',
+    'Dashboard.apps.DashboardConfig',
+    'Offer.apps.OfferConfig',
+    'Refund.apps.RefundConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -78,7 +82,6 @@ WSGI_APPLICATION = 'HorekkRokom.wsgi.application'
 
 
 # Database
-
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
