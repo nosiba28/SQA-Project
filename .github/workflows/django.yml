@@ -20,7 +20,7 @@ jobs:
       - name: Pull main into Nayem branch
         run: |
           git checkout nayem
-          git merge main
+          git rebase main
 
       - name: Push changes to Nayem branch
         run: |
