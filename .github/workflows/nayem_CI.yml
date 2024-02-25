@@ -27,7 +27,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            git checkout nayem
+            git checkout main
             git config --global user.email "jucse28.379@gmail.com"
             git config --global user.name "drzhavoc"
             git pull origin nayem
