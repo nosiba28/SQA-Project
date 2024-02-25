@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: rgb(220, 218, 218);
+        min-height: 100vh;
+      }
+
+      .con {
+        padding: 30px;
+        background: white;
+        display: flex;
+        width: 70vw;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        flex-direction: column;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      table {
+        font-size: 75%;
+        table-layout: fixed;
+        width: 100%;
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 2px;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border-width: 1px;
+        padding: 0.5em;
+        position: relative;
+        text-align: left;
+      }
+      th,
+      td {
+        border-radius: 0.25em;
+        border-style: solid;
+      }
+      th {
+        background: #eee;
+        border-color: #bbb;
+        text-align: center;
+      }
+      td {
+        border-color: #ddd;
+      }
+
+      thead th {
+        background: black;
+        color: white;
+        font-weight: 600;
+      }
+      th input {
+        background: transparent;
+        font-weight: 900;
+        text-align: center;
+        width: 100px;
+        border: none;
+      }
+      th button {
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        color: white;
+        font-weight: 600;
+        width: 100px;
+        margin-bottom: 10px;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Manage Refunds</h1>
+    <div class="con">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Order No.</th>
+            <th>Product Id</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {%for o in refunds%}
+        <form method="POST">
+          {%csrf_token%}
+          <tr>
+            <th>{{o.product.name}}</th>
+            <th>
+              <input
+                type="number"
+                value="{{o.order.orderId}}"
+                name="order"
+                readonly
+              />
+            </th>
+            <th>
+              <input
+                type="number"
+                value="{{o.product.productId}}"
+                name="product"
+                readonly
+              />
+            </th>
+            <th><p>{{o.reason}}</p></th>
+            <th>
+              <button
+                name="accept"
+                style="background: rgb(38, 203, 110)"
+                type="submit"
+              >
+                Accept
+              </button>
+              <button name="reject" style="background: crimson" type="submit">
+                Reject
+              </button>
+            </th>
+          </tr>
+        </form>
+        {%endfor%}
+      </table>
+    </div>
+  </body>
+</html>
