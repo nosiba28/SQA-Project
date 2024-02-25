@@ -58,4 +58,14 @@ class OfferViewTestCase(TestCase):
         updated_product = Product.objects.get(pk=self.product.pk)
         self.assertEqual(updated_product.offer, 10)  # Check if the offer is applied correctly
 
+    def test_apply_offer_to_all_products(self):
+        request = self.factory.post('/offer/', {'all': '', 'disc': 10})
+        request.user = self.user
+
+        response = offer(request)
+        self.assertEqual(response.status_code, 302)  # Redirects after applying offer
+
+        updated_product = Product.objects.get(pk=self.product.pk)
+        self.assertEqual(updated_product.offer, 10)  # Check if the offer is applied correctly
+
    
