@@ -10,9 +10,10 @@ from Cart.models import *
 from Wishlist.models import *
 from Admin.models import *
 from django.utils import timezone
-
 from django.test import TestCase
 from django.urls import reverse
+
+# Create your tests here
 
 class DashboardViewLoginTest(TestCase):
     def setUp(self):
@@ -33,7 +34,6 @@ class DashboardViewLoginTest(TestCase):
         # Assert successful response and access to the view
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'dashboard.html')
-
 
 
 
@@ -63,7 +63,6 @@ class DashboardViewOrdersTest(TestCase):
         self.assertEqual(response.context['orders'].count(), 2)
         self.assertIn(self.order1, response.context['orders'])
         self.assertIn(self.order2, response.context['orders'])
-
 
 
 
@@ -99,14 +98,12 @@ class DashboardViewChartsTest(TestCase):
         self.assertEqual(response.context['lineLabels'], expected_labels)
         self.assertEqual(response.context['lineData'], expected_data)
 
-
         # Same as line chart test, but for pie chart data
         expected_labels = ['Test Product 1', 'Test Product 2']
         expected_data = [5, 1]  # 2 + 3 + 1
         self.assertEqual(response.context['pieLabels'], expected_labels)
         self.assertEqual(response.context['pieData'], expected_data)
 
-    
         # Assert expected month chart data
         expected_labels = ['2024-February']
         expected_data = [70]  # 2 * 10 + 20 + 3 * 10

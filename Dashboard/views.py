@@ -28,10 +28,36 @@ from Wishlist.models import *
 from Admin.models import *
 from django.contrib.auth.decorators import login_required
 
+#write your views here
+
+"""
+View function for rendering the dashboard page
+
+It retrieves data related to orders and sales to display on the dashboard
+calculates various metrics such as total sales, sales per product, and sales per month
+The data is then passed to the dashboard template for visualization
+"""
 def dashboard(request):
+    """
+    Parameters
+    ----------
+    request : HttpRequest
+        HTTP request object
+
+    Returns
+    -------
+    return : HttpResponse
+        HTTP response that renders the dashboard page
+    """
+    
+    # Retrieve the admin (owner) associated with the logged-in user
     admin=Owner.objects.get(email=request.user.email)
+
+    # Retrieve all individual orders associated with the admin's shop
     orders=indOrder.objects.filter(product__shop=admin,order__status=1).order_by('date')
     #orders=indOrder.objects.filter(product__shop=admin).order_by('date')
+
+    # Initialize dictionaries and lists to store data for visualization
     queryDict={}
     lineLabels=[]
     lineData=[]
@@ -41,6 +67,8 @@ def dashboard(request):
     productDict={}
     monthLabels=[]
     monthData=[]
+
+    # Define a dictionary mapping month numbers to month names
     months={
         1:"January",
         2:'February',
@@ -55,25 +83,34 @@ def dashboard(request):
         11:'Novermber',
         12:'December'
     }
+
+    # Process orders to calculate sales data
     for o in orders:
         productDict[o.product.name]=0
         ss=str(o.date.year)+"-"+months[o.date.month]
         monthDict[ss]=0
         queryDict[o.date]=0
+   
     for o in orders:
         ss=str(o.date.year)+"-"+months[o.date.month]
         monthDict[ss]+=(o.quantity*o.product.offerPrice)
         productDict[o.product.name]+=o.quantity
         queryDict[o.date]+=(o.quantity*o.product.offerPrice)
+
+    # Prepare data for visualization
     for o in queryDict:
         lineLabels.append(str(o))
         lineData.append(queryDict[o])
+
     for o in productDict:
         pieLabels.append(o)
         pieData.append(productDict[o])
+
     for o in monthDict:
         monthLabels.append(o)
         monthData.append(monthDict[o])
+
+    # Create context dictionary to pass data to the template
     context={
         'orders':orders,
         'lineLabels':lineLabels,
@@ -84,6 +121,6 @@ def dashboard(request):
         'monthData':monthData
         
     }
-    return render(request,'dashboard.html',context)
 
-    #comment for nothing
+    # Render the dashboard template with the data
+    return render(request,'dashboard.html',context)
