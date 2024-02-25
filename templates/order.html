@@ -1,0 +1,193 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .con {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: whitesmoke;
+        width: 600px;
+        height: 700px;
+        border: 10px solid seagreen;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      table {
+        font-size: 75%;
+        table-layout: fixed;
+        width: 100%;
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 2px;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border-width: 1px;
+        padding: 0.5em;
+        position: relative;
+        text-align: left;
+      }
+      th,
+      td {
+        border-radius: 0.25em;
+        border-style: solid;
+      }
+      th {
+        text-align: center;
+        background: white;
+        border-color: #bbb;
+      }
+      td {
+        border-color: #ddd;
+      }
+      .of {
+        text-align: center;
+      }
+      .image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .image > * {
+        border: none;
+        margin-right: 20px;
+      }
+      .image img {
+        width: 100px;
+      }
+      .cancel {
+        background: #db341e;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        color: white;
+        font-weight: 600;
+        width: 150px;
+        margin-top: 10px;
+        margin-left: 35%;
+      }
+      .sum p {
+        text-align: center;
+        width: 100%;
+        font-size: 16px;
+      }
+      .notun {
+        background: rgba(92, 84, 84, 0.757);
+        position: absolute;
+        min-height: 101.5vh;
+        min-width: 99vw;
+        z-index: 5;
+      }
+      #alert1 {
+        background: rgb(184, 94, 94);
+        position: absolute;
+        left: 50%;
+        z-index: 400;
+        width: 300px;
+        padding: 40px;
+        top: 30%;
+        left: 40%;
+        color: white;
+        border-radius: 10px;
+        font-family: "Courier New", Courier, monospace;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      }
+      #alert1 button {
+        padding: 10px;
+        width: 200px;
+        border: none;
+        background: white;
+        color: #db341e;
+        font-weight: 800;
+        margin-left: 20%;
+        outline: none;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      #alert1 h2 {
+        text-align: center;
+        margin-top: 0;
+        font-size: 19px;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {%for msg in messages%} {%if 'empty' in msg.tags%}
+    <div class="notun"></div>
+    <div
+      id="alert1"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+    >
+      <div class="sub">
+        <h2>{{msg}}</h2>
+      </div>
+      <button class="button" onclick="history.back()">Close</button>
+    </div>
+    {%endif%} {%endfor%}
+    <div class="con">
+      <div class="sum">
+        <h3 class="of">Payment Summary</h3>
+        <p>Verify the following details for this transaction</p>
+
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>{{order.customer.name}}</th>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <th>{{order.customer.email}}</th>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <th>{{order.total}}</th>
+          </tr>
+          <tr>
+            <th>Invoice number</th>
+            <th>230322224913YWafLdQNxKEkefB</th>
+          </tr>
+        </table>
+      </div>
+      <h3>Select Payment Method</h3>
+      <form method="POST">
+        {%csrf_token%}
+        <div class="image">
+          <button type="submit" name="pay" value="1">
+            <img src="{%static '../static/bkashlogo.png'%}" alt="" />
+          </button>
+          <button type="submit" name="pay" value="2">
+            <img src="{%static '../static/nogod.png'%}" alt="" />
+          </button>
+          <button type="submit" name="pay" value="3">
+            <img src="{%static '../static/rocket.png'%}" alt="" />
+          </button>
+        </div>
+        <button type="submit" class="cancel" name="pay" value="4">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

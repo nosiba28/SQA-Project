@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .con {
+        height: 50vh;
+        overflow-y: scroll;
+      }
+      table {
+        width: 70vw;
+        border-collapse: collapse;
+      }
+      tr {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        text-align: center;
+        width: 100%;
+      }
+
+      th input {
+        font-weight: 900;
+        border: none;
+        text-align: center;
+        width: 50px;
+        background: transparent;
+      }
+
+      th button {
+        width: 150px;
+        font-weight: 700;
+        background: crimson;
+        color: white;
+        cursor: pointer;
+        border: none;
+        padding: 10px;
+      }
+      thead th {
+        font-weight: 800;
+        color: white;
+        background: rgb(76, 114, 185);
+      }
+      th {
+        padding: 20px;
+        margin-bottom: 10px;
+        background: whitesmoke;
+        box-shadow: 2px 2px 5px rgb(205, 207, 205);
+        text-align: center;
+        font-weight: 200;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .kk {
+        width: 200px;
+        padding: 10px;
+        border: 1px solid black;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Refundable Orders</h1>
+    <div class="con">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Order No.</th>
+            <th>Quantity</th>
+            <th>Purchase Date</th>
+            <th>Reason</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {%for o in refundList%}
+        <form method="POST">
+          {%csrf_token%}
+          <tr>
+            <th>{{o.product.name}}</th>
+            <th>
+              <input
+                type="number"
+                name="order"
+                value="{{o.order.orderId}}"
+                readonly
+              />
+            </th>
+            <th>{{o.quantity}}</th>
+            <th>{{o.date}}</th>
+            <th>
+              {%if o.status is 0%}
+              <input
+                class="kk"
+                type="text"
+                name="reason"
+                placeholder="Enter Reason"
+              />
+              {%else%}
+              <h3>Request Sent</h3>
+              {%endif%}
+            </th>
+            <th>
+              {%if o.status is 0%}
+              <button
+                name="apply"
+                value="{{o.product.productId}}"
+                style="background: cadetblue"
+              >
+                Apply for Refund
+              </button>
+              {%elif o.status is 1%}
+              <button style="background: cornflowerblue" disabled>
+                Waiting
+              </button>
+              {%else%}
+              <button style="background: rgb(38, 202, 109)" disabled>
+                Accepted
+              </button>
+
+              {%endif%}
+            </th>
+          </tr>
+        </form>
+        {%endfor%}
+      </table>
+    </div>
+    <h1>Non-Refundable Orders</h1>
+    <div class="con">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Purchase Date</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        {%for o in regularList%}
+        <tr>
+          <th>{{o.product.name}}</th>
+          <th>{{o.date}}</th>
+          <th>{{o.quantity}}</th>
+          <th>{{o.product.offerPrice}}</th>
+        </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </body>
+</html>

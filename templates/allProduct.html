@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: whitesmoke;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      .container h1 {
+        text-align: center;
+      }
+      table {
+        width: 70vw;
+      }
+      tr {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        text-align: center;
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .jj th {
+        background: coral;
+        font-weight: 600;
+        color: white;
+        font-size: 19px;
+        border-collapse: collapse;
+      }
+      table img {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      th {
+        padding: 20px;
+        margin-bottom: 10px;
+        background: whitesmoke;
+        box-shadow: 2px 2px 5px rgb(205, 207, 205);
+        text-align: center;
+        font-weight: 200;
+        font-family: "Courier New", Courier, monospace;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>{{shop.shopName}}</h1>
+    <table>
+      <thead>
+        <tr class="jj">
+          <th>Product Id</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
+        {%for product in products%}
+        <tr>
+          <th>{{product.productId}}</th>
+          <th><img src="{{product.image.url}}" alt="" /></th>
+          <th>{{product.name}}</th>
+          <th>{{product.offerPrice}}</th>
+        </tr>
+        {%endfor%}
+      </thead>
+    </table>
+  </body>
+</html>
