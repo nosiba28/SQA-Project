@@ -14,6 +14,7 @@ class RefundRequest(models.Model):
         order (ForeignKey): A reference to the Order associated with the refund request
         status (int): The status of the refund request (0 - pending, 1 - approved, 2 - rejected)
     """
+
     reason=models.CharField(max_length=100,null=True)
     product=models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
     order=models.ForeignKey(Order,on_delete=models.CASCADE,null=True)

@@ -20,6 +20,7 @@ class OwnerModelTestCase(TestCase):
     def test_owner_str_method(self):
         self.assertEqual(str(self.owner), "John Doe-1")
 
+
 class CustomerModelTestCase(TestCase):
     def setUp(self):
         self.customer = Customer.objects.create(

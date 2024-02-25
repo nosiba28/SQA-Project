@@ -10,8 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('',views.orderHistory,name='refund'),
-   
-
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
