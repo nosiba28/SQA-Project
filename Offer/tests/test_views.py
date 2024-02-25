@@ -67,5 +67,19 @@ class OfferViewTestCase(TestCase):
 
         updated_product = Product.objects.get(pk=self.product.pk)
         self.assertEqual(updated_product.offer, 10)  # Check if the offer is applied correctly
+    
+    def test_discard_offer(self):
+        # Set an offer first
+        self.product.offer = 10
+        self.product.save()
+
+        request = self.factory.post('/offer/', {'discard': ''})
+        request.user = self.user
+
+        response = offer(request)
+        self.assertEqual(response.status_code, 302)  # Redirects after discarding offer
+
+        updated_product = Product.objects.get(pk=self.product.pk)
+        self.assertEqual(updated_product.offer, 0)  # Check if the offer is discarded correctly
 
    

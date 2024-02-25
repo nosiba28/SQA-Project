@@ -52,6 +52,14 @@ def offer(request):
             product.offerPrice=product.price-(product.price*(product.offer/100))
             product.save()
         return redirect('/offer')
+    
+    if 'discard' in request.POST:
+        for o in products:
+            product=Product.objects.get(productId=o.productId)
+            product.offer=0
+            product.offerPrice=product.price
+            product.save()
+        return redirect('/offer')
    
     context={
         'categories':categories,
