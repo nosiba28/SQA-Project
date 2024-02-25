@@ -60,7 +60,14 @@ def offer(request):
             product.offerPrice=product.price
             product.save()
         return redirect('/offer')
-   
+    
+    if 'ind' in request.POST:
+        product=Product.objects.get(shop=owner,productId=int(request.POST.get('ind')))
+        product.offer=int(request.POST.get('discount'))
+        product.save()
+        product.offerPrice=product.price-(product.price*(product.offer/100))
+        product.save()
+        return redirect('/offer')
     context={
         'categories':categories,
         'products':products

@@ -82,4 +82,23 @@ class OfferViewTestCase(TestCase):
         updated_product = Product.objects.get(pk=self.product.pk)
         self.assertEqual(updated_product.offer, 0)  # Check if the offer is discarded correctly
 
+    def test_apply_individual_offer(self):
+        
+        # Create a request object with POST data
+        request = self.factory.post('/offer/', {'ind': '', 'ind': self.product.pk, 'discount': 10})
+     
+        request.user = self.user
+
+        # Attach the request to the view and get the response
+        response = offer(request)
+
+        # Check if the response is a redirect (status code 302)
+        self.assertEqual(response.status_code, 302)
+
+        # Reload the product from the database
+        updated_product = Product.objects.get(pk=self.product.pk)
+
+        # Check if the individual offer is applied correctly
+        self.assertEqual(updated_product.offer, 10)
+
    
