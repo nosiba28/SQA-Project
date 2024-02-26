@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: salmon;
+      }
+      .wrapper {
+        position: relative;
+        max-width: 430px;
+        width: 100%;
+        background: #fff;
+        padding: 34px;
+        border-radius: 6px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      .wrapper h2 {
+        position: relative;
+        font-size: 22px;
+        font-weight: 600;
+        color: #333;
+      }
+      .wrapper h2::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 28px;
+        border-radius: 12px;
+        background: coral;
+      }
+      .wrapper form {
+        margin-top: 30px;
+      }
+      .wrapper form .input-box {
+        height: 52px;
+        margin: 18px 0;
+      }
+      form .input-box input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        padding: 0 15px;
+        font-size: 17px;
+        font-weight: 400;
+        color: #333;
+        border: 1.5px solid #c7bebe;
+        border-bottom-width: 2.5px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+      .input-box input:focus,
+      .input-box input:valid {
+        border-color: coral;
+      }
+      form .policy {
+        display: flex;
+        align-items: center;
+      }
+      form h3 {
+        color: #707070;
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 10px;
+      }
+      .input-box.button input {
+        color: #fff;
+        letter-spacing: 1px;
+        border: none;
+        background: coral;
+        cursor: pointer;
+      }
+      .input-box.button input:hover {
+        background: coral;
+      }
+      form .text h3 {
+        color: #333;
+        width: 100%;
+        text-align: center;
+      }
+      form .text h3 a {
+        color: coral;
+        text-decoration: none;
+      }
+      form .text h3 a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+      .radio-item [type="radio"] {
+        display: none;
+      }
+      .radio-item + .radio-item {
+        margin-top: 15px;
+      }
+      .radio-item label {
+        display: block;
+        padding: 20px 60px;
+        background: #1d1d42;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 400;
+        min-width: 250px;
+        white-space: nowrap;
+        color: white;
+        position: relative;
+        transition: 0.4s ease-in-out 0s;
+      }
+      .radio-item label:after,
+      .radio-item label:before {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+      }
+      .radio-item label:after {
+        height: 19px;
+        width: 19px;
+        border: 2px solid coral;
+        left: 19px;
+        top: calc(50% - 15px);
+      }
+
+      .radio-item label:before {
+        background: coral;
+        height: 20px;
+        width: 20px;
+        left: 21px;
+        top: calc(50%-5px);
+        transform: scale(5);
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.4s ease-in-out 0s;
+      }
+      .radio-item [type="radio"]:checked ~ label {
+        border-color: coral;
+      }
+      .radio-item [type="radio"]:checked ~ label::before {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>Product Management</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <section class="radio-section">
+          <div class="radio-list">
+            <h1>Select Operation</h1>
+            <div class="radio-item">
+              <input name="manage" id="radio1" type="radio" value="1" /><label
+                for="radio1"
+                >Add Product</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio2" type="radio" value="2" /><label
+                for="radio2"
+                >Update Product</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio3" type="radio" value="3" /><label
+                for="radio3"
+                >Remove Product</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio4" type="radio" value="4" /><label
+                for="radio4"
+                >View All Product</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio5" type="radio" value="5" /><label
+                for="radio5"
+                >Analytics</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio6" type="radio" value="6" /><label
+                for="radio6"
+                >Manage Offers</label
+              >
+            </div>
+            <div class="radio-item">
+              <input name="manage" id="radio7" type="radio" value="7" /><label
+                for="radio7"
+                >Manage Refunds</label
+              >
+            </div>
+          </div>
+        </section>
+        <div class="input-box button">
+          <input type="submit" name="ok" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

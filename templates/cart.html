@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: whitesmoke;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      h1 {
+        text-align: center;
+        text-transform: uppercase;
+        padding-bottom: 5px;
+      }
+      h1:before {
+        width: 28px;
+        height: 5px;
+        display: block;
+        content: "";
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        margin-left: -14px;
+        background-color: #b80000;
+      }
+      h1:after {
+        width: 100px;
+        height: 1px;
+        display: block;
+        content: "";
+        position: relative;
+        margin-top: 25px;
+        left: 50%;
+        margin-left: -50px;
+        background-color: #b80000;
+      }
+
+      table {
+        width: 70vw;
+      }
+      tr {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        text-align: center;
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        padding: 20px;
+        margin-bottom: 10px;
+        background: white;
+        box-shadow: 2px 2px 5px rgb(205, 207, 205);
+        text-align: center;
+        font-weight: 200;
+      }
+      thead th {
+        background: black;
+        font-weight: 600;
+        color: white;
+        font-size: 19px;
+        border-collapse: collapse;
+      }
+      .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      input {
+        width: 50px;
+        text-align: center;
+        border: none;
+        padding: 10px;
+        font-weight: 600;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-right: 10px;
+        background: whitesmoke;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      .add,
+      .sub {
+        font-size: 18px;
+        font-weight: 600;
+        background-color: whitesmoke;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      table img {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .jji {
+        padding: 0;
+      }
+      .total {
+        height: 30px;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 68vw;
+        background: rgb(6, 139, 121);
+        color: white;
+      }
+      .order {
+        background: indigo;
+        color: white;
+        width: 250px;
+        padding: 10px;
+        border: none;
+        font-weight: 900;
+        margin-left: 40%;
+        font-size: 20px;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cart</h1>
+      <form method="POST">
+        <table>
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Item</th>
+              <th>Action</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          {%csrf_token%} {%for product in allProduct%}
+          <tr class="ko">
+            <th class="jji">
+              <img src="{{product.product.image.url}}" />
+            </th>
+            <th><h4 class="title">{{product.product.name}}</h4></th>
+            <th>
+              <div class="wrap">
+                <button type="button" id="sub" class="sub subD">-</button>
+                <input
+                  type="number"
+                  name="product"
+                  class="count"
+                  id="1"
+                  value="{{product.quantity}}"
+                  min="0"
+                  max="100"
+                />
+                <button type="button" id="add" class="add addD">+</button>
+              </div>
+            </th>
+            <th><h4 class="price">{{product.product.offerPrice}}</h4></th>
+          </tr>
+          {%endfor%}
+        </table>
+        <div class="total">
+          <h3>Total</h3>
+          <span>=</span>
+          <h3 class="dprice">{{order.total}}</h3>
+        </div>
+        <button class="order" name="order" type="submit">Order</button>
+      </form>
+    </div>
+    <script type="text/javascript">
+      $(".addD").click(function () {
+        $(".subD").attr("disabled", false);
+        var th = $(this).closest(".wrap").find(".count");
+        th.val(+th.val() + 1);
+        var price = $(this).closest(".ko").find(".price")[0].innerText;
+        price = parseInt(price);
+        var total = $(".dprice")[0].innerText;
+        total = parseInt(total);
+        console.log(price);
+        total += price;
+        var ss = total;
+        $(".dprice")[0].innerText = ss;
+      });
+      $(".subD").click(function () {
+        var th = $(this).closest(".wrap").find(".count");
+        if (th.val() > 0) th.val(th.val() - 1);
+        var price = $(this).closest(".ko").find(".price")[0].innerText;
+        price = parseInt(price);
+        var total = $(".dprice")[0].innerText;
+        total = parseInt(total);
+
+        if (th.val() >= 0) {
+          total -= price;
+          if (th.val() == 0) {
+            $(".subD").attr("disabled", true);
+          }
+        }
+        var ss = total;
+        $(".dprice")[0].innerText = ss;
+      });
+    </script>
+  </body>
+</html>

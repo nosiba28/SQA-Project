@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 18px;
+      }
+      .star {
+        visibility: hidden;
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .star:before {
+        content: "\2606";
+        position: absolute;
+        visibility: visible;
+      }
+      .star:checked:before {
+        content: "\2605";
+        position: absolute;
+      }
+      .con {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      button {
+        background: cornflowerblue;
+        font-weight: 700;
+        color: white;
+        padding: 10px;
+        width: 200px;
+        border: none;
+        border-radius: 5px;
+      }
+      .con form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 50px;
+        width: 500px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+          rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+      }
+      form > * {
+        margin-bottom: 30px;
+      }
+      form input[type="textarea"] {
+        width: 300px;
+        padding: 20px;
+      }
+      .ca {
+        text-align: left;
+        width: 500px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+          rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        margin-top: 30px;
+        border-left: 5px solid cornflowerblue;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviews</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <div class="con">
+      <form method="POST">
+        <h3>How was your experience about our product?</h3>
+        {%csrf_token%}
+        <div class="ok">
+          <input
+            class="star"
+            type="checkbox"
+            value="1"
+            name="rating"
+            id="check1"
+            onchange="rate1()"
+          />
+          <input
+            class="star"
+            type="checkbox"
+            value="2"
+            name="rating"
+            id="check2"
+            onchange="rate2()"
+          />
+          <input
+            class="star"
+            type="checkbox"
+            value="3"
+            name="rating"
+            id="check3"
+            onchange="rate3()"
+          />
+          <input
+            class="star"
+            type="checkbox"
+            value="4"
+            name="rating"
+            id="check4"
+            onchange="rate4()"
+          />
+          <input
+            class="star"
+            type="checkbox"
+            value="5"
+            name="rating"
+            id="check5"
+            onchange="rate5()"
+          />
+        </div>
+        <input type="textarea" placeholder="Add Review...." name="comment" />
+        <button type="submit" name="add">Submit</button>
+      </form>
+      {%for o in reviews%}
+      <div class="ca">
+        <h4>{{o.customer.name}}</h4>
+        <h2>Rating : <span style="color: blue">{{o.rating}}</span>/5</h2>
+        <h4>Review</h4>
+        <p>{{o.comment}}</p>
+      </div>
+
+      {%endfor%}
+    </div>
+    <script type="text/javascript">
+      function rate1() {
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = false;
+        }
+        for (let i = 1; i <= 1; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = true;
+        }
+      }
+      function rate2() {
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = false;
+        }
+        for (let i = 1; i <= 2; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = true;
+        }
+      }
+      function rate3() {
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = false;
+        }
+        for (let i = 1; i <= 3; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = true;
+        }
+      }
+      function rate4() {
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = false;
+        }
+        for (let i = 1; i <= 4; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = true;
+        }
+      }
+      function rate5() {
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = false;
+        }
+        for (let i = 1; i <= 5; i++) {
+          let ss = "check" + i;
+          document.getElementById(ss).checked = true;
+        }
+      }
+    </script>
+  </body>
+</html>
