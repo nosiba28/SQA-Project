@@ -96,3 +96,65 @@ def orderHistory(request):
     # Render the order history page with the categorized orders
     return render(request,'refund.html',context)
 
+
+
+def manageRefund(request):
+    """
+    View function for managing refund requests.
+
+    Retrieves refund requests related to the owner's shop,
+    processes form submissions for accepting or rejecting refunds,
+    and renders the 'manageRefund.html' template.
+
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response containing the rendered template.
+    """
+    # Retrieve the owner object based on the current user's email
+    owner = Owner.objects.get(email=request.user.email)
+    
+    # Retrieve refund requests related to the owner's shop
+    refunds = RefundRequest.objects.filter(product__shop=owner, status=0)
+    
+    # Process form submissions
+    if 'reject' in request.POST:
+        # Retrieve order and product based on form data
+        order = Order.objects.get(orderId=int(request.POST.get('order')))
+        product = Product.objects.get(productId=int(request.POST.get('product')))
+        
+        # Update refund request and associated order status for rejection
+        requestRefund = RefundRequest.objects.get(order=order, product=product)
+        requestRefund.status = 1
+        requestRefund.save()
+        refundOrder = indOrder.objects.get(order=order, product=product)
+        refundOrder.status = 3
+        refundOrder.save()
+        
+        # Redirect to the refund management page after processing
+        return redirect('/refund/manage')
+    
+    if 'accept' in request.POST:
+        # Retrieve order and product based on form data
+        order = Order.objects.get(orderId=int(request.POST.get('order')))
+        product = Product.objects.get(productId=int(request.POST.get('product')))
+        
+        # Update refund request and associated order status for acceptance
+        requestRefund = RefundRequest.objects.get(order=order, product=product)
+        requestRefund.status = 1
+        requestRefund.save()
+        refundOrder = indOrder.objects.get(order=order, product=product)
+        refundOrder.status = 2
+        refundOrder.save()
+        
+        # Redirect to the refund management page after processing
+        return redirect('/refund/manage')
+    
+    # Prepare context to render the template
+    context = {
+        'refunds': refunds
+    }
+    
+    # Render the manageRefund.html template with the context data
+    return render(request, 'manageRefund.html', context)
