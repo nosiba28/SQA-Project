@@ -1,33 +1,35 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.http import Http404
+from django.shortcuts import render, redirect
 from .models import Product, Review, Customer
 
 def review(request, id):
     """
-    View function to display and add reviews for a product.
+    View function for displaying and adding reviews for a product.
 
-    Args:
+    Parameters:
         request (HttpRequest): The HTTP request object.
         id (int): The ID of the product for which reviews are being viewed/added.
 
     Returns:
-        HttpResponse: The HTTP response object rendering the review template.
+        HttpResponse: The HTTP response containing the rendered template.
     """
-    # Retrieve the product based on the provided ID
-    product = Product.objects.get(productId=int(id))
 
-    # Retrieve all reviews for the product
+    try:
+        # Get the product with the provided ID
+        product = Product.objects.get(productId=int(id))
+    except Product.DoesNotExist:
+        # If the product does not exist, raise a 404 error
+        raise Http404("Product does not exist")
+
+    # Get all reviews for the product
     reviews = Review.objects.filter(product=product)
 
-    # Retrieve the current customer
+    # Get the customer associated with the logged-in user
     customer = Customer.objects.get(email=request.user.email)
 
-    # Process POST request to add a new review
     if 'add' in request.POST:
-        # Generate a new review ID
+        # If a review is being added via POST request
         new_review_id = len(Review.objects.all()) + 1
-
-        # Create a new review object
         new_review = Review(
             customer=customer,
             product=product,
@@ -35,18 +37,16 @@ def review(request, id):
             rating=len(request.POST.getlist('rating')),
             comment=request.POST.get('comment')
         )
-
-        # Save the new review
         new_review.save()
-
-        # Redirect to the review page for the same product
-        redirect_url = "/review/" + str(id)
+        # Redirect to the same page after adding the review
+        redirect_url = f"/review/{id}"
         return redirect(redirect_url)
 
-    # Prepare the context data to be passed to the template
+    # Prepare the context to be passed to the template
     context = {
-        'reviews': reviews
+        'product': product,  # The product being reviewed
+        'reviews': reviews   # All reviews for the product
     }
 
-    # Render the review template with the provided context
+    # Render the template with the provided context
     return render(request, 'review.html', context)

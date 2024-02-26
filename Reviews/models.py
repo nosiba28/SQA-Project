@@ -1,19 +1,21 @@
 from django.db import models
-from Admin.models import Product, Customer  # Importing Product and Customer models from Admin app
-from Search.models import Product  # Importing Product model from Search app
+from Admin.models import Product
+from Search.models import Customer
 
-# Define your models here.
 class Review(models.Model):
     """
-    Model to represent a review for a product.
+    Model representing a review for a product.
+
+    Each review has a review ID, comment, rating, associated product, and customer.
 
     Attributes:
-        reviewId (IntegerField): The ID of the review.
-        comment (CharField): The comment associated with the review.
-        product (ForeignKey): The product being reviewed (related to Product model).
-        customer (ForeignKey): The customer who submitted the review (related to Customer model).
-        rating (IntegerField): The rating given in the review.
+        reviewId (IntegerField): The unique identifier for the review.
+        comment (CharField): The comment provided by the customer for the review.
+        product (ForeignKey): The product associated with the review.
+        customer (ForeignKey): The customer who submitted the review.
+        rating (IntegerField): The rating given by the customer for the product.
     """
+
     reviewId = models.IntegerField(default=0, null=True)
     comment = models.CharField(max_length=100, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
@@ -22,9 +24,9 @@ class Review(models.Model):
 
     def __str__(self):
         """
-        Method to return a string representation of the review.
+        String representation of the review.
 
         Returns:
-            str: A string representation of the review, consisting of review ID and product ID.
+            str: A string representation of the review in the format "<reviewId> - <productId>".
         """
-        return str(self.reviewId) + " - " + str(self.product.productId)
+        return f"{self.reviewId} - {self.product.productId}"
