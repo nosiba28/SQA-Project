@@ -1,2 +1,8 @@
-Django==3.2.10
-django-filter==2.4.0
+Django
+djangorestframework
+xhtml2pdf
+Pillow
+mixer
+pytest
+pytest-django
+pytest-cov
