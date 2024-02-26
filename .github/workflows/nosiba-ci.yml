@@ -31,4 +31,9 @@ jobs:
     - name: Run Offer module tests
       run: pytest Offer/tests/test_views.py
 
+    - name: Run Admin module tests
+      run: python manage.py test Admin
+    
+    
+
    
