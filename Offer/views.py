@@ -30,9 +30,21 @@ from Admin.models import *
 from django.contrib.auth.decorators import login_required
 
 def offer(request):
+    
+    """
+    View function for managing offers on products.
+
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object containing rendered HTML.
+    """
+
     owner=Owner.objects.get(email=request.user.email)
     products=Product.objects.filter(shop=owner)
     categories=Category.objects.filter()
+    
     if 'apply' in request.POST:
         categoryList=request.POST.getlist('category')
         for i in categoryList:
@@ -44,6 +56,7 @@ def offer(request):
                     product.offerPrice=product.price-(product.price*(product.offer/100))
                     product.save()
         return redirect('/offer')
+    
     if 'all' in request.POST:
         for o in products:
             product=Product.objects.get(productId=o.productId)
