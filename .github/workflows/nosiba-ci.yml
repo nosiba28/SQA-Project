@@ -28,6 +28,7 @@ jobs:
     - name: Run Cart module tests
       run: python manage.py test Cart
 
-   
+    - name: Run Offer module tests
+      run: pytest Offer/tests/test_views.py
 
    
