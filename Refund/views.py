@@ -28,7 +28,45 @@ from Wishlist.models import *  # Importing models from the Wishlist app
 from Admin.models import *  # Importing models from the Admin app
 from django.contrib.auth.decorators import login_required
 
-@login_required
+
+def refund(request):
+    customer=Customer.objects.get(email=request.user.email)
+    orders=Order.objects.filter(customer=customer,status=1)
+    orderList=[]
+    for o in orders:
+        indOrders=indOrder.objects.filter(order=o)
+        for i in indOrders:
+            orderList.append(i)
+    refundList=[]
+    regularList=[]
+    if 'apply' in request.POST:
+        order=Order.objects.get(customer=customer,status=1,
+                                orderId=int(request.POST.get('order')))
+        product=Product.objects.get(productId=int(request.POST.get('apply')))
+        createRequest=RefundRequest(
+            reason=request.POST.get('reason'),
+            order=order,
+            product=product
+        )
+        createRequest.save()
+        oa=indOrder.objects.get(order=order,product=product)
+        oa.status=1
+        oa.save()
+        return redirect('/refund')
+
+    for o in orderList:
+        today=datetime.datetime.today().date()
+        diff=(today-o.date).days
+        if diff<=6 and o.status<=2:
+            refundList.append(o)
+        else:
+            regularList.append(o)
+    context={
+        'refundList':refundList,
+        'regularList':regularList
+    }
+    return render(request,'refund.html',context)
+
 def manageRefund(request):
     """
     View function for managing refund requests.
