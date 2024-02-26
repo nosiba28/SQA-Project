@@ -28,9 +28,21 @@ from Wishlist.models import *  # Importing models from the Wishlist app
 from Admin.models import *  # Importing models from the Admin app
 from django.contrib.auth.decorators import login_required
 
-# View function for managing refund requests
 @login_required
 def manageRefund(request):
+    """
+    View function for managing refund requests.
+
+    Retrieves refund requests related to the owner's shop,
+    processes form submissions for accepting or rejecting refunds,
+    and renders the 'manageRefund.html' template.
+
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response containing the rendered template.
+    """
     # Retrieve the owner object based on the current user's email
     owner = Owner.objects.get(email=request.user.email)
     

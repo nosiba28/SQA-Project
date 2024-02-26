@@ -3,20 +3,41 @@ from .models import *  # Importing models from the same app
 from Admin.models import *  # Importing models from the Admin app
 from Cart.models import *   # Importing models from the Cart app
 
-# RefundRequest model definition
 class RefundRequest(models.Model):
-    reason = models.CharField(max_length=100, null=True)  # Reason for the refund request
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)  # Product associated with the refund request
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)  # Order associated with the refund request
-    status = models.IntegerField(default=0)  # Status of the refund request
+    """
+    Represents a refund request.
+
+    Attributes:
+        reason (str): The reason for the refund request.
+        product (Product): The product associated with the refund request.
+        order (Order): The order associated with the refund request.
+        status (int): The status of the refund request.
+    """
+    reason = models.CharField(max_length=100, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    status = models.IntegerField(default=0)
 
     def __str__(self):
-        # String representation of the RefundRequest instance
+        """
+        Returns a string representation of the RefundRequest instance.
+
+        Returns:
+            str: String representation of the refund request.
+        """
         return str(self.order.orderId) + " - " + str(self.product.productId)
 
 
-# View function for managing refund requests
 def manageRefund(request):
+    """
+    View function for managing refund requests.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered HTTP response.
+    """
     # Retrieve the owner object based on the current user's email
     owner = Owner.objects.get(email=request.user.email)
     
