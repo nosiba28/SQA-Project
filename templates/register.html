@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #4070f4;
+      }
+      .wrapper {
+        position: relative;
+        max-width: 430px;
+        width: 100%;
+        background: #fff;
+        padding: 34px;
+        border-radius: 6px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      .wrapper h2 {
+        position: relative;
+        font-size: 22px;
+        font-weight: 600;
+        color: #333;
+      }
+      .wrapper h2::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 28px;
+        border-radius: 12px;
+        background: #4070f4;
+      }
+      .wrapper form {
+        margin-top: 30px;
+      }
+      .wrapper form .input-box {
+        height: 52px;
+        margin: 18px 0;
+      }
+      form .input-box input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        padding: 0 15px;
+        font-size: 17px;
+        font-weight: 400;
+        color: #333;
+        border: 1.5px solid #c7bebe;
+        border-bottom-width: 2.5px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+      .input-box input:focus,
+      .input-box input:valid {
+        border-color: #4070f4;
+      }
+      form .policy {
+        display: flex;
+        align-items: center;
+      }
+      form h3 {
+        color: #707070;
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 10px;
+      }
+      .input-box.button input {
+        color: #fff;
+        letter-spacing: 1px;
+        border: none;
+        background: #4070f4;
+        cursor: pointer;
+      }
+      .input-box.button input:hover {
+        background: #0e4bf1;
+      }
+      form .text h3 {
+        color: #333;
+        width: 100%;
+        text-align: center;
+      }
+      form .text h3 a {
+        color: #4070f4;
+        text-decoration: none;
+      }
+      form .text h3 a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+      .radio-item [type="radio"] {
+        display: none;
+      }
+      .radio-item + .radio-item {
+        margin-top: 15px;
+      }
+      .radio-item label {
+        display: block;
+        padding: 20px 60px;
+        background: #1d1d42;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 400;
+        min-width: 250px;
+        white-space: nowrap;
+        color: white;
+        position: relative;
+        transition: 0.4s ease-in-out 0s;
+      }
+      .radio-item label:after,
+      .radio-item label:before {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+      }
+      .radio-item label:after {
+        height: 19px;
+        width: 19px;
+        border: 2px solid #524eee;
+        left: 19px;
+        top: calc(50% - 15px);
+      }
+
+      .radio-item label:before {
+        background: #524eee;
+        height: 20px;
+        width: 20px;
+        left: 21px;
+        top: calc(50%-5px);
+        transform: scale(5);
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.4s ease-in-out 0s;
+      }
+      .radio-item [type="radio"]:checked ~ label {
+        border-color: #524eee;
+      }
+      .radio-item [type="radio"]:checked ~ label::before {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>Registration</h2>
+      <form method="POST">
+        {%csrf_token%}
+        <section class="radio-section">
+          <div class="radio-list">
+            <h1>Select Role</h1>
+            <div class="radio-item">
+              <input
+                name="type"
+                id="radio1"
+                type="radio"
+                value="1"
+                onchange="show1()"
+              /><label for="radio1">Customer</label>
+            </div>
+            <div class="radio-item">
+              <input
+                name="type"
+                id="radio2"
+                type="radio"
+                value="2"
+                onchange="show2()"
+              /><label for="radio2" checked>Owner</label>
+            </div>
+          </div>
+        </section>
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter shop name"
+            name="shop"
+            id="show"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            required
+          />
+        </div>
+
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter your username"
+            name="username"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            placeholder="Create password"
+            name="pass"
+            required
+          />
+        </div>
+        <div class="input-box button">
+          <input type="submit" name="register" />
+        </div>
+        <div class="text">
+          <h3>Already have an account? <a href="/logIn">Login now</a></h3>
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript">
+      function show1() {
+        console.log("clicked");
+        document.getElementById("show").style.display = "none";
+      }
+      function show2() {
+        document.getElementById("show").style.display = "block";
+      }
+    </script>
+  </body>
+</html>

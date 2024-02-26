@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkbox Button</title>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      .checkbox-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: whitesmoke;
+        border: none;
+        border: 2px solid black;
+        font-weight: 700;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"]:checked + .checkbox-button {
+        background-color: #28a745;
+        border: none;
+        color: white;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.5em;
+        padding-bottom: 15px;
+        position: relative;
+      }
+      h1:before {
+        content: "";
+        position: absolute;
+        left: 34%;
+        bottom: 0;
+        height: 5px;
+        width: 55px;
+        background-color: #111;
+      }
+      h1:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        height: 1px;
+        width: 95%;
+        max-width: 255px;
+        background-color: #333;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .con {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 90vw;
+        background: whitesmoke;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-radius: 20px;
+        padding: 40px;
+      }
+      .con form {
+        width: 50vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+          rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      }
+      .con form > * {
+        margin-right: 10px;
+        margin-top: 10px;
+      }
+      .button button {
+        padding: 10px;
+        background: black;
+        border: none;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        min-width: 200px;
+      }
+      .kur {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 30px;
+      }
+      .kur > * {
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+      table {
+        width: 70vw;
+        overflow: auto;
+        border-collapse: collapse;
+      }
+      tr {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        text-align: center;
+        width: 100%;
+      }
+      form input {
+        width: 200px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+      }
+
+      input {
+        text-align: center;
+        border: none;
+        padding: 10px;
+        font-weight: 700;
+        font-size: 16px;
+        width: 50px;
+      }
+      .jj th {
+        background: coral;
+        font-weight: 600;
+        color: white;
+        font-size: 19px;
+      }
+      th button {
+        padding: 5px;
+        width: 150px;
+        font-weight: 700;
+      }
+      thead th {
+        font-weight: 800;
+        color: white;
+        background: rgb(76, 114, 185);
+      }
+      th {
+        padding: 20px;
+        margin-bottom: 10px;
+        background: whitesmoke;
+        box-shadow: 2px 2px 5px rgb(205, 207, 205);
+        text-align: center;
+        font-weight: 200;
+        font-family: "Courier New", Courier, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="con">
+      <h1>Apply Offer</h1>
+      <h2>Choose Categories</h2>
+      <form method="POST">
+        {%csrf_token%}
+        <div class="kur">
+          {%for o in categories%}
+          <input
+            type="checkbox"
+            id="{{o.categoryName}}"
+            value="{{o.categoryName}}"
+            name="category"
+          />
+          <label for="{{o.categoryName}}" class="checkbox-button"
+            >{{o.categoryName}}</label
+          >
+          {%endfor%}
+        </div>
+        <input type="number" name="disc" placeholder="Enter Discount" />
+        <div class="button">
+          <button type="submit" name="apply">Submit</button>
+          <button type="submit" name="all" style="background: rgb(19, 182, 90)">
+            Apply To All
+          </button>
+          <button type="submit" name="discard" style="background: crimson">
+            Discard Offers
+          </button>
+        </div>
+      </form>
+      <h2>Manage Offer</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Regular Price</th>
+            <th>Offer</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {%for o in products%}
+        <tr>
+          <th>{{o.productId}}</th>
+          <th>{{o.name}}</th>
+          <th>{{o.price}}</th>
+          <form method="POST">
+            {%csrf_token%}
+            <th>
+              <input type="number" value="{{o.offer}}" name="discount" /> %
+            </th>
+            <th>
+              <button type="submit" value="{{o.productId}}" name="ind">
+                Apply
+              </button>
+            </th>
+          </form>
+        </tr>
+        {%endfor%}
+      </table>
+    </div>
+  </body>
+</html>
