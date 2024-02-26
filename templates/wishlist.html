@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: whitesmoke;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      .container h1 {
+        text-align: center;
+      }
+      table {
+        width: 70vw;
+      }
+      tr {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        text-align: center;
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .jj th {
+        background: crimson;
+        font-weight: 600;
+        color: white;
+        font-size: 19px;
+        border-collapse: collapse;
+      }
+      table img {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      th {
+        padding: 20px;
+        font-weight: 700;
+
+        margin-bottom: 10px;
+        background: whitesmoke;
+        box-shadow: 2px 2px 5px rgb(205, 207, 205);
+        text-align: center;
+        font-family: "Courier New", Courier, monospace;
+      }
+      th button {
+        width: 150px;
+        padding: 10px;
+        background: rgb(55, 187, 239);
+        border: none;
+        color: white;
+        font-weight: 500;
+        font-size: 18px;
+        font-family: "Courier New", Courier, monospace;
+      }
+      th button:hover {
+        background: rgb(235, 54, 54);
+        cursor: pointer;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Wish List</h1>
+    <table>
+      <thead>
+        <tr class="jj">
+          <th>Product</th>
+          <th>Image</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+        {%for product,i in wishList.items%}
+        <form method="POST">
+          {%csrf_token%}
+          <tr>
+            <th>{{product.name}}</th>
+            <th><img src="{{product.image.url}}" alt="" /></th>
+            <th>{{product.offerPrice}}</th>
+            <th>
+              <button type="submit" name="remove" value="{{product.productId}}">
+                Remove
+              </button>
+              <br />
+              <br />
+              {%if i is 0%}
+              <button
+                type="submit"
+                name="addcart"
+                style="background: crimson"
+                value="{{product.productId}}"
+              >
+                Cart
+              </button>
+              {%else%}
+              <button disabled style="background: rgb(45, 231, 126)">
+                Added to Cart
+              </button>
+              {%endif%}
+            </th>
+          </tr>
+        </form>
+        {%endfor%}
+      </thead>
+    </table>
+  </body>
+</html>

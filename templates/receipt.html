@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <style>
+        * {
+          font-family: "Courier New", Courier, monospace;
+        }
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgb(220, 218, 218);
+          min-height: 100vh;
+        }
+        .coupon-header {
+          font: bold 100% sans-serif;
+          letter-spacing: 0.5em;
+          text-align: center;
+          text-transform: uppercase;
+          background: black;
+          color: white;
+          padding: 5px;
+          width: 100%;
+          border-radius: 5px;
+        }
+        .con {
+          width: 500px;
+          padding: 30px;
+          background: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 10px;
+          flex-direction: column;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+        table {
+          font-size: 75%;
+          table-layout: fixed;
+          width: 100%;
+        }
+        table {
+          border-collapse: separate;
+          border-spacing: 2px;
+          margin-bottom: 20px;
+        }
+        th,
+        td {
+          border-width: 1px;
+          padding: 0.5em;
+          position: relative;
+          text-align: left;
+        }
+        th,
+        td {
+          border-radius: 0.25em;
+          border-style: solid;
+        }
+        th {
+          background: #eee;
+          border-color: #bbb;
+        }
+        td {
+          border-color: #ddd;
+        }
+        .shift {
+          margin-top: 0;
+          font-weight: 500;
+          font-size: 17px;
+        }
+        .student {
+          font-size: 15px;
+          margin-left: 5%;
+          text-align: left;
+          width: 100%;
+          display: inline-block;
+        }
+        thead th {
+          background: black;
+          color: white;
+          font-weight: 600;
+        }
+        .con h3 {
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          width: 100%;
+          text-align: center;
+          border-bottom: 1px solid rgba(176, 176, 176, 0.54);
+        }
+        form button {
+          background: #db341e;
+          font-size: 18px;
+          border: none;
+          cursor: pointer;
+          padding: 10px;
+          color: white;
+          font-weight: 600;
+          width: 150px;
+        }
+        .back {
+          background: #db341e;
+          font-size: 18px;
+          border: none;
+          cursor: pointer;
+          padding: 10px;
+          color: white;
+          font-weight: 600;
+          width: 150px;
+          margin-top: 20px;
+        }
+      </style>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+    </head>
+    <body></body>
+  </html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="con">
+      <div class="customer">
+        <p>Name: {{customer.name}}</p>
+        <p>Email :{{customer.email}}</p>
+      </div>
+      <h3>Orders</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        {%for product in allProduct%}
+        <tr>
+          <th>{{product.product.name}}</th>
+          <th>{{product.quantity}}</th>
+          <th>{{product.product.offerPrice}}</th>
+        </tr>
+        {%endfor%}
+      </table>
+
+      <table>
+        <tr>
+          <th>Total</th>
+          <th>{{order.total}}</th>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <th>{{date}}</th>
+        </tr>
+      </table>
+      <form method="POST">
+        {%csrf_token%}
+        <button type="submit" name="confirm">Get Receipt</button>
+        <button type="submit" name="back">Home</button>
+      </form>
+    </div>
+  </body>
+</html>

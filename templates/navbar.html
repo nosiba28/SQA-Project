@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .navbar {
+        background-color: #fff; /* Adjust as needed */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 10px 20px;
+        display: flex;
+        height: 70px;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed; /* Makes it sticky */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100; /* Ensures it's on top */
+        transition: all 0.3s ease-in-out; /* Smooth transitions */
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .links {
+        display: flex;
+      }
+
+      .links a {
+        text-decoration: none;
+        color: #333; /* Adjust as needed */
+        margin-right: 15px;
+        padding: 5px 10px;
+        font-family: sans-serif; /* Or your preferred font */
+      }
+
+      .links a:hover {
+        color: #007bff; /* Adjust as needed */
+        background-color: rgba(0, 0, 0, 0.1); /* Subtly highlight on hover */
+      }
+
+      /* Responsiveness (media queries to adapt for different screen sizes) */
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 5px 10px;
+        }
+        .logo {
+          font-size: 20px;
+        }
+        .links {
+          flex-direction: column; /* Stack links vertically on smaller screens */
+        }
+        .links a {
+          margin-bottom: 5px;
+        }
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <h2>HorekkRokom</h2>
+      </div>
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="/product">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/wishlist">Favorites</a>
+        <a href="/refund">Order History</a>
+        <a href="/logOut">Logout</a>
+      </div>
+    </div>
+    {%block body%}{%load static%}{%endblock body%}
+  </body>
+</html>
