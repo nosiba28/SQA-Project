@@ -37,3 +37,27 @@ class ManageRefundViewTestCase(TestCase):
 
         # Create refund request
         self.refund_request = RefundRequest.objects.create(reason='Defective product', product=self.product, order=self.order, status=0)
+
+    def test_manage_refund_view_accessible(self):
+        """
+        Test whether the manage refund page is accessible.
+        """
+        client = Client()
+        client.force_login(self.user2)
+        response = client.get(reverse('manageRefund'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'manageRefund.html')
+
+    def test_refund_request_acceptance(self):
+        """
+        Test accepting a refund request.
+        """
+        client = Client()
+        client.force_login(self.user2)
+        data = {
+            'order': self.order.id,
+            'product': self.product.id,
+            'accept': 'accept'
+        }
+        response = client.post(reverse('manageRefund'), data)
+        self.assertEqual(response.status_code, 302)  # Here a successful acceptance redirects
