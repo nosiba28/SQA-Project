@@ -1,0 +1,181 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        font-family: "Courier New", Courier, monospace;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: white;
+      }
+
+      .con h2 span {
+        color: #db341e;
+      }
+      .con {
+        padding: 20px;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      input {
+        background: white;
+        border: none;
+        padding: 20px;
+        width: 300px;
+      }
+      label {
+        width: 82%;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+      .bk {
+        background: whitesmoke;
+        border: 20px solid rgb(245, 24, 120);
+      }
+      .ci {
+        margin-top: 20px;
+      }
+      .cancel {
+        background: #db341e;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        color: white;
+        font-weight: 600;
+        width: 150px;
+      }
+      .nogod span {
+        color: orangered;
+      }
+      .con img {
+        width: 100px;
+      }
+      .confirm {
+        background: #3bc555;
+        padding: 10px;
+        border: none;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+        width: 150px;
+      }
+      .hudai {
+        background: #3bc555;
+        padding: 10px;
+        border: none;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+        width: 150px;
+      }
+      .nogod {
+        border: 20px solid orangered;
+        background: whitesmoke;
+      }
+      .rocket {
+        border: 20px solid rgb(135, 33, 135);
+        background: whitesmoke;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    {%if id is 1%}
+    <div class="con bk">
+      <img src="{%static '../static/bkashlogo.png'%}" alt="" />
+      <h2>Bill : <span> ${{order.total}} </span></h2>
+      <label id="imp">Enter Number</label>
+      <input type="number" class="kire" required placeholder="01XXXXXXXX" />
+      <div class="ci">
+        <button
+          type="submit"
+          name="cancel"
+          class="cancel"
+          onclick="window.location.href='/cart'"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="confirm" name="confirm">Confirm</button>
+      </div>
+    </div>
+    {%endif%} {%if id is 2%}
+    <div class="con nogod">
+      <img src="{%static '../static/nogodlogo.png'%}" alt="" />
+      <h2>Bill : <span> ${{order.total}} BDT</span></h2>
+      <label id="imp">Enter Number</label>
+      <input type="number" class="kire" required placeholder="01XXXXXXXX" />
+      <div class="ci">
+        <button
+          type="submit"
+          name="cancel"
+          class="cancel"
+          onclick="window.location.href='/cart'"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="confirm" name="confirm">Confirm</button>
+      </div>
+    </div>
+    {%endif%} {%if id is 3%}
+    <div class="con rocket">
+      <img src="{%static '../static/rocketlogo.png'%}" alt="" />
+      <h2>Bill : <span>${{order.total}} </span></h2>
+      <label id="imp">Enter Number</label>
+      <input type="number" class="kire" required placeholder="01XXXXXXXX" />
+      <div class="ci">
+        <button
+          type="submit"
+          name="cancel"
+          class="cancel"
+          onclick="window.location.href='/cart'"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="confirm" name="confirm">Confirm</button>
+      </div>
+    </div>
+    {%endif%}
+    <script type="text/javascript">
+      $(".confirm").click(function () {
+        var ss = "{{order.orderId}}";
+        if ($(".kire").attr("type") == "password") {
+          window.location.replace("/order/receipt/" + ss);
+        } else if ($(".kire").attr("type") == "number") {
+          $("#imp")[0].innerText = "Enter Verification Number";
+          $(".kire").val("");
+          $(".kire").attr("type", "text");
+          $(".kire").attr("placeholder", "XXXXXX");
+        } else if ($(".kire").attr("type") == "text") {
+          $("#imp")[0].innerText = "Enter Pin Number";
+          $(".kire").val("");
+          $(".kire").attr("type", "password");
+          $(".kire").attr("placeholder", "........");
+        }
+      });
+    </script>
+  </body>
+</html>
