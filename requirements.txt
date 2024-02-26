@@ -1,0 +1,8 @@
+Django
+djangorestframework
+xhtml2pdf
+Pillow
+mixer
+pytest
+pytest-django
+pytest-cov
