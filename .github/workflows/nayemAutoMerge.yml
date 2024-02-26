@@ -3,6 +3,7 @@ name: Merge to main
 on:
   push:
     branches:
+      - main
       - nayem
 
 jobs:
@@ -10,11 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3  # Update to latest version
+      - name: Fetch latest changes (optional)
+        run: git fetch origin
 
-      - name: Merge to main
+      - name: Check for merge conflicts
         run: |
           git checkout main
-          git merge nayem
-          git push origin main
+          git merge --ff-only nayem  # Attempt fast-forward merge
+
+      - name: Manual approval for merge (optional, add security)
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            if [ -z "${{ github.event.pull_requests }}" ]; then
+              exit 0
+            fi
+
+            gh pr create -B main -H origin/nayem
+            exit 1
+
+      - name: Merge with conflict resolution (if necessary)
+        run: |
+          git checkout main
+          git merge nayem  # Manual merge if conflicts occur
+
+      - name: Push changes to origin (optional, consider protected branches)
+        run: git push origin main
