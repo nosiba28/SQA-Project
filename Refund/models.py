@@ -84,3 +84,72 @@ def manageRefund(request):
     
     # Render the manageRefund.html template with the context data
     return render(request, 'manageRefund.html', context)
+from django.test import TestCase, Client
+from django.urls import reverse
+from django.contrib.auth.models import User
+from .models import Owner, Product, Order, indOrder, RefundRequest
+
+class ManageRefundViewTestCase(TestCase):
+    """
+    Test cases for the manageRefund view.
+    """
+
+    def setUp(self):
+        """
+        Set up test data.
+        """
+        # Create users
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='password')
+
+        # Create owner
+        self.owner = Owner.objects.create(shopId=1, name="Test Owner", email='test@example.com', username='testuser', password='password')
+
+        # Create product
+        self.product = Product.objects.create(productId=1, name='Test Product', price=10, shop=self.owner)
+
+        # Create order
+        self.order = Order.objects.create(customer=None, orderId=1, status=1)
+
+        # Create individual order
+        self.ind_order = indOrder.objects.create(date='2024-02-22', product=self.product, quantity=2, order=self.order, status=0)
+
+        # Create refund request
+        self.refund_request = RefundRequest.objects.create(reason='Defective product', product=self.product, order=self.order, status=0)
+
+    def test_manage_refund_view(self):
+        """
+        Test the manageRefund view.
+        """
+        client = Client()
+        client.force_login(self.user)
+        response = client.get(reverse('manageRefund'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'manageRefund.html')
+
+    def test_reject_refund_request(self):
+        """
+        Test rejecting a refund request.
+        """
+        client = Client()
+        client.force_login(self.user)
+        data = {
+            'reject': 'reject',
+            'order': self.order.id,
+            'product': self.product.id,
+        }
+        response = client.post(reverse('manageRefund'), data)
+        self.assertEqual(response.status_code, 302)  # Redirected after processing
+
+    def test_accept_refund_request(self):
+        """
+        Test accepting a refund request.
+        """
+        client = Client()
+        client.force_login(self.user)
+        data = {
+            'accept': 'accept',
+            'order': self.order.id,
+            'product': self.product.id,
+        }
+        response = client.post(reverse('manageRefund'), data)
+        self.assertEqual(response.status_code, 302)  # Redirected after processing

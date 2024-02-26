@@ -7,6 +7,8 @@ from Search.models import *
 from Cart.models import *
 from Wishlist.models import *
 from Admin.models import *
+
+
 class ManageRefundViewTestCase(TestCase):
     """
     Test cases for the manageRefund view.
@@ -27,7 +29,7 @@ class ManageRefundViewTestCase(TestCase):
         self.owner = Owner.objects.create(shopId=1, name="Test Owner", email='test2@example.com', username='testuser2', password='password2')
 
         # Create product
-        self.product = Product.objects.create(productId=1, name='Test Product', price=10, shop=self.owner)
+        self.product = Product.objects.create(productId=1, name='Test Product', price=10,  shop=self.owner)
 
         # Create order
         self.order = Order.objects.create(customer=self.customer, orderId=1, status=1)
@@ -38,6 +40,7 @@ class ManageRefundViewTestCase(TestCase):
         # Create refund request
         self.refund_request = RefundRequest.objects.create(reason='Defective product', product=self.product, order=self.order, status=0)
 
+    
     def test_manage_refund_view_accessible(self):
         """
         Test whether the manage refund page is accessible.
@@ -60,4 +63,18 @@ class ManageRefundViewTestCase(TestCase):
             'accept': 'accept'
         }
         response = client.post(reverse('manageRefund'), data)
-        self.assertEqual(response.status_code, 302)  # Here a successful acceptance redirects
+        self.assertEqual(response.status_code, 302)  # Here, a successful acceptance redirects
+
+    def test_refund_request_rejection(self):
+        """
+        Test rejecting a refund request.
+        """
+        client = Client()
+        client.force_login(self.user2)
+        data = {
+            'order': self.order.id,
+            'product': self.product.id,
+            'reject': 'reject'
+        }
+        response = client.post(reverse('manageRefund'), data)
+        self.assertEqual(response.status_code, 302)  # Here, a successful rejection redirects
