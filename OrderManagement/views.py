@@ -21,13 +21,30 @@ import json
 import random
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group,User
-from .models import *
-from Search.models import *
+from .models import *  # Importing models from the same directory
+from Search.models import *  # Importing models from the Search directory
 from django.contrib.auth.decorators import login_required
-from Cart.models import *
-from Admin.models import *
+from Cart.models import *  # Importing models from the Cart directory
+from Admin.models import *  # Importing models from the Admin directory
+
+# View for handling orders
+
+
+"""
+    View function for handling orders.
+
+    Parameters:
+    - request (HttpRequest): The HTTP request object.
+    - id (int): The ID of the order.
+
+    Returns:
+    - HttpResponse: A rendered HTML response displaying order details.
+    """
+
 def order(request,id):
+    # Getting the order object based on the provided id
     order=Order.objects.get(orderId=int(id))
+    # Checking if the payment method is selected and redirecting accordingly
     if request.POST.get('pay')=='1':
         redirectUrl='/order/payment/'+str(id)+'/'+str(1)
         return redirect(redirectUrl)
@@ -43,18 +60,28 @@ def order(request,id):
         'order':order
     }
     return render(request,'order.html',context)
+
+# View for handling payments
 def payment(request,id,id2):
+    # Getting the order object based on the provided id
     order=Order.objects.get(orderId=int(id))    
     context={
         'id':id2,
         'order':order
     }
     return render(request,'payment.html',context)
+
+# View for generating receipts
 def receipt(request,id):
+    # Getting the order object based on the provided id
     order=Order.objects.get(orderId=int(id))
+    # Getting the customer object based on the logged-in user's email
     customer=Customer.objects.get(email=request.user.email)
+    # Getting all individual products for the order
     allProduct=indOrder.objects.filter(order=order)
+    # Getting the current date
     today=datetime.date.today()
+    # Handling form submission for confirmation or going back to cart
     if 'confirm' in request.POST:
         order.status=1
         today=datetime.datetime.today().date()
